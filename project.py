@@ -70,6 +70,7 @@ def response():
     output = {}
     output["message"] = query["message"]
     output["response"] = query["response"]
+    output["sent"] = query["sent"]
     return output
 
 @app.route('/all_user', methods=['GET'])
