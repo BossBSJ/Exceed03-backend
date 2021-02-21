@@ -42,7 +42,7 @@ def insert_one():
     myCollection.insert_one(data)
     return {'result': 'Create succesfully'}
 
-@app.route('/update_status', methods=['PATCH'])
+@app.route('/update_status', methods=['POST'])
 @cross_origin()
 def update():
     data = request.json
@@ -248,7 +248,6 @@ def get_msg():
 def input_secure():
     myCollection = mongo.db.gas_gyro
     data = request.json
-
     myCollection.insert_one(data)
     return {'result': 'Create successfully'}
 
@@ -264,6 +263,14 @@ def update_gyro():
         }}
     myCollection = mongo.db.gas_gyro
     myCollection.update_one(filt, update_gyro)
+
+    myCollection = mongo.db.user
+    update = {"$set": {
+        "status": "danger"
+        }}
+    #print(filt, update)
+    myCollection.update_one(filt, update)
+
     return {"result": "update successfully"}
     
 @app.route('/update_gas', methods=['POST'])
@@ -278,6 +285,11 @@ def update_gas():
         }}
     myCollection = mongo.db.gas_gyro
     myCollection.update_one(filt, update_gas)
+    myCollection = mongo.db.user
+    update = {"$set": {
+        "status": "danger"
+        }}
+    myCollection.update_one(filt, update)
     return {"result": "update successfully"}
 
 @app.route('/get_secure', methods=['GET'])
