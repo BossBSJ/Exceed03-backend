@@ -105,7 +105,8 @@ def new_msg():
     if(query):
         update_msg = { "$set": {
             "message": data["message"],
-            "sent": False
+            "sent": False,
+            "response": None
         }}
 
         myCollection.update_one(filt,update_msg)
