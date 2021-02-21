@@ -318,7 +318,7 @@ def reply():
     data = request.json
     msg_id = data["msg_id"]
     response = data["response"]
-
+    print(data)
     filt = {"msg_id": int(msg_id)}
 
     update = {"$set": {
