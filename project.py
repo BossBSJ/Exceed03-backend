@@ -59,6 +59,19 @@ def update():
     myCollection.update_one(filt, update_status)
     return {'result': 'update succesfully'}
 
+@app.route('/response', methods=['GET'])
+@cross_origin()
+def response():
+    myCollection = mongo.db.messages
+    ID = request.args.get("user_id")
+    filt = {"user_id": int(ID), "type": "live" }
+
+    query = myCollection.find_one(filt)
+    output = {}
+    output["message"] = query["message"]
+    output["response"] = query["response"]
+    return output
+
 @app.route('/all_user', methods=['GET'])
 @cross_origin()
 def find_all():
