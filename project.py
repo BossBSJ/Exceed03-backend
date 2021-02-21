@@ -2,15 +2,18 @@ import time
 import datetime
 from flask import Flask, request
 from flask_pymongo import PyMongo
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = 'mongodb://exceed_group03:n9tvpt6s@158.108.182.0:2255/exceed_group03'
 
+cors = CORS(app)
 mongo = PyMongo(app)
 
 #myCollection = mongo.db.user
 
 @app.route('/test', methods=['GET'])
+@cross_origin()
 def test():
     now = datetime.datetime.now()
     print(now)
@@ -19,6 +22,7 @@ def test():
 
 #user
 @app.route('/create_user', methods=['POST'])
+@cross_origin()
 def insert_one():
     myCollection = mongo.db.user
     data = request.json
@@ -39,6 +43,7 @@ def insert_one():
     return {'result': 'Create succesfully'}
 
 @app.route('/update_status', methods=['PATCH'])
+@cross_origin()
 def update():
     data = request.json
     Id = request.args.get('user_id')
@@ -55,6 +60,7 @@ def update():
     return {'result': 'update succesfully'}
 
 @app.route('/all_user', methods=['GET'])
+@cross_origin()
 def find_all():
     myCollection = mongo.db.user
     all_user = myCollection.find()
@@ -75,6 +81,7 @@ def find_all():
 
 #message
 @app.route('/new_msg', methods=['POST'])
+@cross_origin()
 def new_msg():
     myCollection = mongo.db.messages
     user_id = request.args.get("user_id")
@@ -107,6 +114,7 @@ def new_msg():
         return{'result': 'Create successfully'}
     
 @app.route('/get_live', methods=['GET'])
+@cross_origin()
 def get_live():
     myCollection = mongo.db.messages
     user_id = request.args.get("user_id")
@@ -127,6 +135,7 @@ def get_live():
     return output
 
 @app.route('/get_schedule', methods=['GET'])
+@cross_origin()
 def get_schedule():
     myCollection = mongo.db.messages
     user_id = request.args.get("user_id")
@@ -169,6 +178,7 @@ def get_schedule():
     return {'result': output }
 
 @app.route('/create_schedule', methods=['POST'])
+@cross_origin()
 def input_schedule():
     myCollection = mongo.db.messages
     data = request.json
@@ -192,6 +202,7 @@ def input_schedule():
     return { 'result': "Create successful"}
 
 @app.route('/delete_schedule', methods=['DELETE'])
+@cross_origin()
 def delete_schedule():
     myCollection = mongo.db.messages
     msg_id = request.args.get("msg_id")
@@ -202,6 +213,7 @@ def delete_schedule():
 
 
 @app.route('/msg', methods=['GET'])
+@cross_origin()
 def get_msg():
     myCollection = mongo.db.messages
     ID = request.args.get("user_id")
@@ -232,6 +244,7 @@ def get_msg():
 
 #secure
 @app.route('/create_secure', methods=['POST'])
+@cross_origin()
 def input_secure():
     myCollection = mongo.db.gas_gyro
     data = request.json
@@ -240,6 +253,7 @@ def input_secure():
     return {'result': 'Create successfully'}
 
 @app.route('/update_gyro', methods=['POST'])
+@cross_origin()
 def update_gyro():
     data = request.json
     ID = request.args.get('user_id')
@@ -253,6 +267,7 @@ def update_gyro():
     return {"result": "update successfully"}
     
 @app.route('/update_gas', methods=['POST'])
+@cross_origin()
 def update_gas():
     data = request.json
     ID = request.args.get('user_id')
@@ -266,6 +281,7 @@ def update_gas():
     return {"result": "update successfully"}
 
 @app.route('/get_secure', methods=['GET'])
+@cross_origin()
 def find_secure():
     myCollection = mongo.db.gas_gyro
     ID = request.args.get("user_id")
@@ -284,6 +300,7 @@ def find_secure():
 
 #yer/no
 @app.route('/reply', methods=['POST'])
+@cross_origin()
 def reply():
     myCollection = mongo.db.messages
     data = request.json
